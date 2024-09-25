@@ -1,6 +1,8 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-import grafo_automata
+import grafo
+import tabla
+import gramatica
 
 # Definir los productos con su costo y las cadenas válidas asociadas
 productos = {
@@ -32,6 +34,12 @@ def procesar_cadena(event):
         # Verificar si la cadena ingresada corresponde exactamente a un producto
         if cadena in productos:
             mostrar_producto(cadena)
+            
+            # Aquí se llama al módulo del grafo para dibujar la ruta
+            grafo.dibujar_grafo(cadena)  # <- Agregar esta línea para ejecutar el grafo
+            tabla.mostrar_tabla_transiciones(cadena)
+            gramatica.mostrar_gramatica(cadena)
+            
         else:
             resultado_label.config(text="Pertenece al alfabeto, pero no es un estado de aceptación.", fg="red")
     else:
@@ -64,10 +72,6 @@ def mostrar_producto(codigo_producto):
 
     # Actualizar el índice del último bombillo encendido
     ultimo_bombillo_encendido = indice_producto
-
-# Función para mostrar la tabla de transiciones
-def mostrar_tabla_transiciones():
-    grafo_automata.crear_tabla_transiciones()
 
 # Configuración inicial de la ventana
 ventana = tk.Tk()
@@ -147,9 +151,3 @@ ventana.bind('<Return>', procesar_cadena)
 
 # Iniciar la aplicación principal
 ventana.mainloop()
-
-# Mostrar el grafo
-grafo_automata.dibujar_grafo()
-
-# Después de que se cierra la ventana del grafo, mostrar la tabla de transiciones
-mostrar_tabla_transiciones()

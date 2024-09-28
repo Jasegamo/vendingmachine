@@ -1,5 +1,23 @@
 import tkinter as tk
 
+transiciones = {
+    "S0": {"1": "Q2", "5": "Q1"},
+    "Q1": {"1": "Q3", "5": "Q4"},
+    "Q2": {"1": "Q6", "5": "Q5"},
+    "Q3": {"1": "Q7", "5": "Q8"},
+    "Q4": {"1": "Q9", "5": "Q10"},
+    "Q5": {"1": "Q12", "5": "Q11"},
+    "Q6": {"1": "Q14", "5": "Q13"},
+    "Q7": {"1": "Q15", "5": "Q16"},
+    "Q8": {"1": "Q17", "5": "Q18"},
+    "Q9": {"1": "Q19", "5": "Q20"},
+    "Q10": {"1": "Q21", "5": "Q22"},
+    "Q11": {"5": "Q23"},
+    "Q12": {"1": "Q24"},
+    "Q13": {"1": "Q25"},
+    "Q14": {"1": "Q26"}
+}
+
 # Función para mostrar la gramática del autómata y la expresión regular
 def mostrar_gramatica(cadena):
     # Crear una nueva ventana de Tkinter para mostrar la gramática
@@ -27,10 +45,22 @@ def mostrar_gramatica(cadena):
 # Función para generar la gramática del autómata basada en la cadena
 def generar_gramatica_automata(cadena):
     reglas = []
-    # Ejemplo de generación de reglas dinámicas basadas en la cadena
+    estado_actual = "S0"  # Estado inicial
+
     for i, simbolo in enumerate(cadena):
-        reglas.append(f"S{i} → {simbolo} S{i+1}")
-    reglas.append(f"S{len(cadena)} → ε")  # Estado de aceptación
+        # Comprobamos si hay una transición válida para el estado actual y el símbolo de la cadena
+        if simbolo in transiciones[estado_actual]:
+            estado_siguiente = transiciones[estado_actual][simbolo]
+            # Añadimos la regla gramatical
+            reglas.append(f"{estado_actual} → {simbolo} {estado_siguiente}")
+            # Actualizamos el estado actual
+            estado_actual = estado_siguiente
+        else:
+            # Si no hay transición válida, devolvemos un mensaje de error
+            return f"Error: no hay transición para el símbolo '{simbolo}' en el estado '{estado_actual}'"
+    
+    # Añadimos la regla final que lleva al estado de aceptación (ε-transición)
+    reglas.append(f"{estado_actual} → ε")  # Estado de aceptación
 
     # Formatear las reglas en una sola cadena de texto
     return "\n".join(reglas)

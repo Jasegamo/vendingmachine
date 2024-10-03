@@ -10,8 +10,38 @@ productos = {
     '5151': 3000, '5115': 3000, '5555': 2000, '5155': 2500, '1555': 2500, '1151': 3500
 }
 
+# caracteristicas del automata
+
+# Estados
+Q = ['Q0', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10', 
+     'Q11', 'Q12', 'Q13', 'Q14', 'Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20', 
+     'Q21', 'Q22', 'Q23', 'Q24', 'Q25', 'Q26']
+
 # Definir el alfabeto del autómata
-alfabeto = {'1', '5'}
+Σ = {'1', '5'}
+
+# Definir las transiciones entre nodos
+transiciones = [
+    ("Q0", "Q2", 1), ("Q0", "Q1", 5),
+    ("Q1", "Q3", 1), ("Q1", "Q4", 5),
+    ("Q3", "Q7", 1), ("Q3", "Q8", 5),
+    ("Q7", "Q15", 1), ("Q7", "Q16", 5),
+    ("Q8", "Q17", 1), ("Q8", "Q18", 5),
+    ("Q4", "Q9", 1), ("Q4", "Q10", 5),
+    ("Q9", "Q19", 1), ("Q9", "Q20", 5),
+    ("Q10", "Q21", 1), ("Q10", "Q22", 5),
+    ("Q2", "Q6", 1), ("Q2", "Q5", 5),
+    ("Q5", "Q12", 1), ("Q5", "Q11", 5),
+    ("Q11", "Q23", 5), ("Q12", "Q24", 1),
+    ("Q6", "Q14", 1), ("Q6", "Q13", 5),
+    ("Q13", "Q25", 1), ("Q14", "Q26", 1)
+]
+
+# Definir el estado inicial
+S = 'Q0'
+
+# Definir estados finales
+F = ['Q15', 'Q16', 'Q17', 'Q18', 'Q19', 'Q20', 'Q21', 'Q22', 'Q23', 'Q24', 'Q25', 'Q25']
 
 # Variables para almacenar los bombillos y el índice del último bombillo encendido
 bombillos = []
@@ -48,7 +78,7 @@ def procesar_cadena(event):
 # Función para validar que la cadena pertenece al alfabeto
 def validar_alfabeto(cadena):
     for simbolo in cadena:
-        if simbolo not in alfabeto:
+        if simbolo not in Σ:
             return False
     return True
 
